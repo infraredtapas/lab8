@@ -1,0 +1,157 @@
+
+:root {
+  --font-heading: "Quicksand", system-ui, sans-serif;
+  --font-body: "Open Sans", system-ui, sans-serif;
+
+  --color-text: #111827;
+  --color-muted: #6b7280;
+  --color-accent: #4f46e5;
+  --color-accent-dark: #3730a3;
+
+  --radius-lg: 1rem;
+  --shadow-soft: 0 18px 45px rgba(0, 0, 0, 0.1);
+
+  --space-md: 1.5rem;
+  --space-lg: 3rem;
+}
+
+
+h1 {
+  font-family: var(--font-heading);
+  font-size: 2.2rem;
+  font-weight: 800;
+  letter-spacing: 0.03em;
+}
+
+
+h2 {
+  font-family: var(--font-heading);
+  font-size: 2rem;
+  font-weight: 700;
+}
+
+h3 {
+  font-family: var(--font-heading);
+  font-size: 1.3rem;
+  font-weight: 600;
+}
+
+p {
+  font-family: var(--font-body);
+  font-size: 1rem;
+  line-height: 1.7;
+  color: var(--color-muted);
+  margin: 0 0 1rem; 
+}
+
+
+
+
+a {
+  color: var(--color-accent);
+  text-decoration: none;
+  transition: 0.2s;
+}
+
+a:hover {
+  color: var(--color-accent-dark);
+}
+
+
+.btn,
+.btn-primary {
+  background: var(--color-accent);
+  border: none;
+  color: white;
+  padding: 0.5rem 1.4rem;
+  border-radius: 999px;
+  font-size: 0.95rem;
+  transition: 0.25s;
+}
+
+
+.btn:hover {
+  background: var(--color-accent-dark);
+  transform: translateY(-2px);
+}
+
+
+
+section {
+  padding-top: var(--space-lg);
+  padding-bottom: var(--space-lg);
+}
+
+.service-item,
+.skill-card,
+.portfolio-item,
+.faq-item,
+.testimonial-item {
+  padding: var(--space-md);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-soft);
+  background: white;
+}
+
+
+
+
+.header {
+  background: rgba(0, 0, 0, 0.55);
+  backdrop-filter: blur(10px);
+}
+
+
+#scroll-top {
+  background: var(--color-accent);
+  border-radius: 50%;
+  transition: 0.25s;
+}
+
+#scroll-top:hover {
+  background: var(--color-accent-dark);
+  transform: translateY(-3px);
+}
+
+
+.hero .hero-actions {
+  display: flex;
+  justify-content: flex-start; 
+  gap: 1rem; 
+  margin-top: 1.4rem;
+}
+
+
+@media (min-width: 992px) {
+  .hero .hero-actions {
+    justify-content: flex-end; 
+  }
+}
+
+
+.about .cta-section {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-top: 1.5rem;
+}
+
+.about .cta-section .action-buttons {
+  margin-left: auto;          
+  display: flex;
+  gap: 0.75rem;
+}
+
+
+@media (max-width: 767.98px) {
+  .about .cta-section {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .about .cta-section .action-buttons {
+    margin-left: 0;
+  }
+}
+
