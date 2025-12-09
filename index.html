@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
-  <title>Atakan Bahari lab8</title>
+  <title>Atakan Bahari lab10</title>
   <meta name="description" content="">
   <meta name="keywords" content="">
 
@@ -38,6 +38,9 @@
 </head>
 
 <body class="index-page">
+  <div id="lab-loader" class="lab-loader"></div>
+<div class="lab-shape"></div>
+
 
   <header id="header" class="header d-flex align-items-center fixed-top">
     <div class="container-fluid position-relative d-flex align-items-center justify-content-between">
@@ -1187,98 +1190,128 @@
     <!-- Contact Section -->
     <section id="contact" class="contact section light-background">
 
-      <!-- Section Title -->
-      <div class="container section-title">
-        <h2>Contact</h2>
-        <p>Contact with me!</p>
-      </div><!-- End Section Title -->
+  <div class="container section-title">
+    <h2>Contact</h2>
+    <p>Contact with me!</p>
+  </div>
 
-      <div class="container" data-aos="fade-up" data-aos-delay="100">
+  <div class="container" data-aos="fade-up" data-aos-delay="100">
 
-        <div class="row g-4 g-lg-5">
-          <div class="col-lg-5">
-            <div class="info-box" data-aos="fade-up" data-aos-delay="200">
-              <h3>Contact Info</h3>
-              <p>Get in touch with me If you have any questions!</p>
+    <div class="row g-4 g-lg-5">
+      <div class="col-lg-5">
+        <div class="info-box" data-aos="fade-up" data-aos-delay="200">
+          <h3>Contact Info</h3>
+          <p>Get in touch with me If you have any questions!</p>
 
-              <div class="info-item" data-aos="fade-up" data-aos-delay="300">
-                <div class="icon-box">
-                  <i class="bi bi-geo-alt"></i>
-                </div>
-                <div class="content">
-                  <h4>Our Location</h4>
-                  <p>Vilnius Tech</p>
-                  <p>Vilnius, Lithuania</p>
-                </div>
-              </div>
-
-              <div class="info-item" data-aos="fade-up" data-aos-delay="400">
-                <div class="icon-box">
-                  <i class="bi bi-telephone"></i>
-                </div>
-                <div class="content">
-                  <h4>Phone Number</h4>
-                  <p>+370 627 49981</p>
-
-                </div>
-              </div>
-
-              <div class="info-item" data-aos="fade-up" data-aos-delay="500">
-                <div class="icon-box">
-                  <i class="bi bi-envelope"></i>
-                </div>
-                <div class="content">
-                  <h4>Email Address</h4>
-                  <p>bahariatakan@gmail.com</p>
-
-                </div>
-              </div>
+          <div class="info-item" data-aos="fade-up" data-aos-delay="300">
+            <div class="icon-box">
+              <i class="bi bi-geo-alt"></i>
+            </div>
+            <div class="content">
+              <h4>Our Location</h4>
+              <p>Vilnius Tech</p>
+              <p>Vilnius, Lithuania</p>
             </div>
           </div>
 
-          <div class="col-lg-7">
-            <div class="contact-form" data-aos="fade-up" data-aos-delay="300">
-              <h3>Get In Touch</h3>
-              <p>Praesent sapien massa, convallis a pellentesque nec, egestas non nisi. Vestibulum ante ipsum primis.</p>
-
-              <form action="forms/contact.php" method="post" class="php-email-form" data-aos="fade-up" data-aos-delay="200">
-                <div class="row gy-4">
-
-                  <div class="col-md-6">
-                    <input type="text" name="name" class="form-control" placeholder="Your Name" required="">
-                  </div>
-
-                  <div class="col-md-6 ">
-                    <input type="email" class="form-control" name="email" placeholder="Your Email" required="">
-                  </div>
-
-                  <div class="col-12">
-                    <input type="text" class="form-control" name="subject" placeholder="Subject" required="">
-                  </div>
-
-                  <div class="col-12">
-                    <textarea class="form-control" name="message" rows="6" placeholder="Message" required=""></textarea>
-                  </div>
-
-                  <div class="col-12 text-center">
-                    <div class="loading">Loading</div>
-                    <div class="error-message"></div>
-                    <div class="sent-message">Your message has been sent. Thank you!</div>
-
-                    <button type="submit" class="btn">Send Message</button>
-                  </div>
-
-                </div>
-              </form>
-
+          <div class="info-item" data-aos="fade-up" data-aos-delay="400">
+            <div class="icon-box">
+              <i class="bi bi-telephone"></i>
+            </div>
+            <div class="content">
+              <h4>Phone Number</h4>
+              <p>+370 627 49981</p>
             </div>
           </div>
 
+          <div class="info-item" data-aos="fade-up" data-aos-delay="500">
+            <div class="icon-box">
+              <i class="bi bi-envelope"></i>
+            </div>
+            <div class="content">
+              <h4>Email Address</h4>
+              <p>bahariatakan@gmail.com</p>
+            </div>
+          </div>
         </div>
-
       </div>
 
-    </section><!-- /Contact Section -->
+      <div class="col-lg-7">
+        <div class="contact-form" data-aos="fade-up" data-aos-delay="300">
+          <h3>Get In Touch</h3>
+          <p>Do not call me.</p>
+
+          <form id="contact-form" class="contact-js-form" data-aos="fade-up" data-aos-delay="200">
+           <form id="contact-form" class="contact-js-form" data-aos="fade-up" data-aos-delay="200">
+  <div class="row gy-4">
+
+    <div class="col-md-6">
+      <label for="contact-name" class="form-label">Name</label>
+      <input type="text" id="contact-name" name="name" class="form-control" placeholder="Your Name" required>
+    </div>
+
+    <div class="col-md-6">
+      <label for="contact-surname" class="form-label">Surname</label>
+      <input type="text" id="contact-surname" name="surname" class="form-control" placeholder="Your Surname" required>
+    </div>
+
+    <div class="col-md-6">
+      <label for="contact-email" class="form-label">Email</label>
+      <input type="email" id="contact-email" name="email" class="form-control" placeholder="your@email.com" required>
+    </div>
+
+    <div class="col-md-6">
+      <label for="contact-phone" class="form-label">Phone number</label>
+      <input type="text" id="contact-phone" name="phone" class="form-control" placeholder="+370 6xx xxxxx">
+    </div>
+
+    <div class="col-12">
+      <label for="contact-address" class="form-label">Address</label>
+      <input type="text" id="contact-address" name="address" class="form-control" placeholder="Your address" required>
+    </div>
+
+    <div class="col-md-4">
+      <label for="rating-1" class="form-label">Rating 1 (1–10)</label>
+      <input type="number" id="rating-1" name="rating1" class="form-control" min="1" max="10" value="5" required>
+    </div>
+
+    <div class="col-md-4">
+      <label for="rating-2" class="form-label">Rating 2 (1–10)</label>
+      <input type="number" id="rating-2" name="rating2" class="form-control" min="1" max="10" value="5" required>
+    </div>
+
+    <div class="col-md-4">
+      <label for="rating-3" class="form-label">Rating 3 (1–10)</label>
+      <input type="number" id="rating-3" name="rating3" class="form-control" min="1" max="10" value="5" required>
+    </div>
+
+    <div class="col-12 text-center">
+      <button type="submit" class="btn">Submit</button>
+    </div>
+
+  </div>
+</form>
+
+          </form>
+
+          <div id="contact-output" class="contact-output mt-4"></div>
+
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+  <div id="form-success-popup" class="form-success-popup">
+    <div class="form-success-popup__content">
+      <p>Form submitted successfully!</p>
+      <button type="button" id="popup-close-btn" class="btn btn-sm btn-primary mt-2">Close</button>
+    </div>
+  </div>
+
+</section>
+
 
   </main>
 
@@ -1322,6 +1355,19 @@
 
   <!-- Main JS File -->
   <script src="assets/js/main.js"></script>
+
+  <script>
+  setTimeout(() => {
+    const l = document.getElementById("lab-loader");
+    if (l) l.style.display = "none";
+  }, 1800);
+
+  
+</script>
+
+<script src="assets/js/main.js"></script>
+<script src="assets/js/custom.js"></script>
+
 
 </body>
 
