@@ -818,6 +818,79 @@
       </div>
 
     </section><!-- /Portfolio Section -->
+    <!-- Memory Game Section -->
+    <section id="memory-game" class="section light-background">
+      <div class="container section-title">
+        <h2>Memory Game</h2>
+        <p>Flip card memory game with two difficulty levels. Try to match all pairs in as few moves as possible.</p>
+      </div>
+
+      <div class="container" data-aos="fade-up" data-aos-delay="100">
+        <div class="row gy-4">
+
+          <!-- Controls + Stats -->
+          <div class="col-lg-4">
+            <div class="memory-panel">
+              <h3 class="mb-3">Game Settings</h3>
+
+              <div class="mb-3">
+                <label for="memory-difficulty" class="form-label">Difficulty</label>
+                <select id="memory-difficulty" class="form-select memory-select">
+                  <option value="easy" selected>Easy (4 × 3)</option>
+                  <option value="hard">Hard (6 × 4)</option>
+                </select>
+              </div>
+
+              <div class="mb-3 memory-buttons">
+                <button id="memory-start" type="button" class="btn btn-primary btn-sm me-2">
+                  Start
+                </button>
+                <button id="memory-restart" type="button" class="btn btn-outline-secondary btn-sm">
+                  Restart
+                </button>
+              </div>
+
+              <div class="memory-stats">
+                <h4>Stats</h4>
+                <div class="memory-stat-row">
+                  <span>Moves:</span>
+                  <span id="memory-moves">0</span>
+                </div>
+                <div class="memory-stat-row">
+                  <span>Matches:</span>
+                  <span><span id="memory-matches">0</span> / <span id="memory-total">0</span></span>
+                </div>
+                <div class="memory-stat-row">
+                  <span>Time:</span>
+                  <span id="memory-time">00:00</span>
+                </div>
+                <div class="memory-stat-row">
+                  <span>Best (Easy):</span>
+                  <span id="memory-best-easy">–</span>
+                </div>
+                <div class="memory-stat-row">
+                  <span>Best (Hard):</span>
+                  <span id="memory-best-hard">–</span>
+                </div>
+              </div>
+
+              <div id="memory-message" class="memory-message" aria-live="polite">
+                Press <strong>Start</strong> to begin.
+              </div>
+            </div>
+          </div>
+
+          <!-- Game board -->
+          <div class="col-lg-8">
+            <div class="memory-board-wrapper">
+              <div id="memory-board" class="memory-board" aria-label="Memory game board"></div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+    <!-- /Memory Game Section -->
 
     <!-- Testimonials Section -->
     <section id="testimonials" class="testimonials section">

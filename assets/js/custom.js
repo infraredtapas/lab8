@@ -305,3 +305,291 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   }
 });
+
+// =========================
+// Memory Game - Lab 10
+// =========================
+
+document.addEventListener("DOMContentLoaded", function () {
+  const memoryBoard = document.getElementById("memory-board");
+  const difficultySelect = document.getElementById("memory-difficulty");
+  const startBtn = document.getElementById("memory-start");
+  const restartBtn = document.getElementById("memory-restart");
+  const movesEl = document.getElementById("memory-moves");
+  const matchesEl = document.getElementById("memory-matches");
+  const totalEl = document.getElementById("memory-total");
+  const timeEl = document.getElementById("memory-time");
+  const bestEasyEl = document.getElementById("memory-best-easy");
+  const bestHardEl = document.getElementById("memory-best-hard");
+  const messageEl = document.getElementById("memory-message");
+
+  // Eğer Memory Game section sayfada yoksa (örneğin başka sayfadaysa) hiçbir şey yapma
+  if (!memoryBoard || !difficultySelect) {
+    return;
+  }
+
+  // Kart verileri (en az 6 benzersiz ikon)
+  const memoryItems = [
+    { id: "robot", icon: "🤖" },
+    { id: "rocket", icon: "🚀" },
+    { id: "brain", icon: "🧠" },
+    { id: "atom", icon: "⚛️" },
+    { id: "laptop", icon: "💻" },
+    { id: "gamepad", icon: "🎮" },
+    { id: "bulb", icon: "💡" },
+    { id: "planet", icon: "🪐" },
+    { id: "camera", icon: "📷" },
+    { id: "music", icon: "🎵" },
+    { id: "book", icon: "📚" },
+    { id: "coffee", icon: "☕" }
+  ];
+
+  const difficultySettings = {
+    easy: { rows: 3, cols: 4 }, // 12 kart, 6 eşleşen çift
+    hard: { rows: 4, cols: 6 }  // 24 kart, 12 eşleşen çift
+  };
+
+  const BEST_KEY_PREFIX = "lab10_memory_best_"; // localStorage prefix
+
+  let currentDifficulty = "easy";
+  let deck = [];
+  let firstCard = null;
+  let secondCard = null;
+  let boardLocked = false;
+  let moves = 0;
+  let matches = 0;
+  let totalPairs = 0;
+  let gameActive = false;
+
+  let timerId = null;
+  let elapsedSeconds = 0;
+
+  // ---------- Yardımcı fonksiyonlar ----------
+
+  function shuffle(array) {
+    const arr = array.slice();
+    for (let i = arr.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [arr[i], arr[j]] = [arr[j], arr[i]];
+    }
+    return arr;
+  }
+
+  function formatTime(seconds) {
+    const m = String(Math.floor(seconds / 60)).padStart(2, "0");
+    const s = String(seconds % 60).padStart(2, "0");
+    return `${m}:${s}`;
+  }
+
+  function startTimer() {
+    stopTimer();
+    elapsedSeconds = 0;
+    timeEl.textContent = formatTime(elapsedSeconds);
+    timerId = setInterval(() => {
+      elapsedSeconds++;
+      timeEl.textContent = formatTime(elapsedSeconds);
+    }, 1000);
+  }
+
+  function stopTimer() {
+    if (timerId !== null) {
+      clearInterval(timerId);
+      timerId = null;
+    }
+  }
+
+  function resetStats() {
+    moves = 0;
+    matches = 0;
+    movesEl.textContent = "0";
+    matchesEl.textContent = "0";
+    timeEl.textContent = "00:00";
+  }
+
+  function loadBestScores() {
+    const easyBest = localStorage.getItem(BEST_KEY_PREFIX + "easy");
+    const hardBest = localStorage.getItem(BEST_KEY_PREFIX + "hard");
+    bestEasyEl.textContent = easyBest ? easyBest : "–";
+    bestHardEl.textContent = hardBest ? hardBest : "–";
+  }
+
+  function updateBestScoreIfNeeded() {
+    const key = BEST_KEY_PREFIX + currentDifficulty;
+    const stored = localStorage.getItem(key);
+    if (!stored || moves < Number(stored)) {
+      localStorage.setItem(key, String(moves));
+      loadBestScores();
+    }
+  }
+
+  // ---------- Oyun kurulumu ----------
+
+  function buildDeck(difficultyKey) {
+    const settings = difficultySettings[difficultyKey];
+    const cardCount = settings.rows * settings.cols;
+    const pairCount = cardCount / 2;
+    totalPairs = pairCount;
+    totalEl.textContent = String(totalPairs);
+
+    const chosenItems = shuffle(memoryItems).slice(0, pairCount);
+    const tempDeck = [];
+
+    chosenItems.forEach((item) => {
+      tempDeck.push({ ...item, uid: item.id + "-a" });
+      tempDeck.push({ ...item, uid: item.id + "-b" });
+    });
+
+    deck = shuffle(tempDeck);
+  }
+
+  function renderBoard() {
+    const settings = difficultySettings[currentDifficulty];
+    memoryBoard.innerHTML = "";
+    memoryBoard.style.setProperty("--memory-cols", settings.cols);
+
+    deck.forEach((cardData) => {
+      const card = document.createElement("button");
+      card.className = "memory-card";
+      card.type = "button";
+      card.setAttribute("data-id", cardData.id);
+
+      const inner = document.createElement("div");
+      inner.className = "memory-card-inner";
+
+      const front = document.createElement("div");
+      front.className = "memory-card-face memory-card-front";
+
+      const back = document.createElement("div");
+      back.className = "memory-card-face memory-card-back";
+      back.textContent = cardData.icon;
+
+      inner.appendChild(front);
+      inner.appendChild(back);
+      card.appendChild(inner);
+
+      card.addEventListener("click", () => handleCardClick(card));
+      memoryBoard.appendChild(card);
+    });
+  }
+
+  function initGame(difficultyKey) {
+    currentDifficulty = difficultyKey;
+    gameActive = false;
+    boardLocked = false;
+    firstCard = null;
+    secondCard = null;
+
+    stopTimer();
+    resetStats();
+    messageEl.textContent = "Press Start to begin.";
+
+    buildDeck(currentDifficulty);
+    renderBoard();
+  }
+
+  // ---------- Oyun akışı ----------
+
+  function startGame() {
+    gameActive = true;
+    boardLocked = false;
+    firstCard = null;
+    secondCard = null;
+    resetStats();
+    stopTimer();
+    startTimer();
+    messageEl.textContent = "Game started! Find all pairs.";
+  }
+
+  function restartGame() {
+    initGame(currentDifficulty);
+    startGame();
+  }
+
+  function handleCardClick(card) {
+    if (!gameActive) return;
+    if (boardLocked) return;
+    if (card.classList.contains("is-flipped") || card.classList.contains("is-matched")) {
+      return;
+    }
+
+    card.classList.add("is-flipped");
+
+    if (!firstCard) {
+      firstCard = card;
+      return;
+    }
+
+    if (!secondCard && card !== firstCard) {
+      secondCard = card;
+      moves++;
+      movesEl.textContent = String(moves);
+      checkForMatch();
+    }
+  }
+
+  function checkForMatch() {
+    if (!firstCard || !secondCard) return;
+
+    const id1 = firstCard.getAttribute("data-id");
+    const id2 = secondCard.getAttribute("data-id");
+
+    if (id1 === id2) {
+      handleMatch();
+    } else {
+      handleMismatch();
+    }
+  }
+
+  function handleMatch() {
+    firstCard.classList.add("is-matched");
+    secondCard.classList.add("is-matched");
+    matches++;
+    matchesEl.textContent = String(matches);
+
+    firstCard = null;
+    secondCard = null;
+
+    if (matches === totalPairs) {
+      handleWin();
+    }
+  }
+
+  function handleMismatch() {
+    boardLocked = true;
+    setTimeout(() => {
+      if (firstCard) firstCard.classList.remove("is-flipped");
+      if (secondCard) secondCard.classList.remove("is-flipped");
+      firstCard = null;
+      secondCard = null;
+      boardLocked = false;
+    }, 900); // yaklaşık 1 saniye
+  }
+
+  function handleWin() {
+    gameActive = false;
+    stopTimer();
+    messageEl.innerHTML = `🎉 You win! Completed in <strong>${moves}</strong> moves and <strong>${formatTime(
+      elapsedSeconds
+    )}</strong>.`;
+    updateBestScoreIfNeeded();
+  }
+
+  // ---------- Event listeners ----------
+
+  difficultySelect.addEventListener("change", function () {
+    const value = this.value === "hard" ? "hard" : "easy";
+    initGame(value);
+  });
+
+  startBtn.addEventListener("click", function () {
+    startGame();
+  });
+
+  restartBtn.addEventListener("click", function () {
+    restartGame();
+  });
+
+  // İlk yüklemede best skorları ve easy board'u hazırla
+  loadBestScores();
+  initGame(currentDifficulty);
+});

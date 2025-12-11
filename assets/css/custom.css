@@ -308,3 +308,163 @@ body {
   cursor: not-allowed;
 }
 
+/* =========================
+   Memory Game - Lab 10
+   ========================= */
+
+#memory-game {
+  scroll-margin-top: 80px;
+}
+
+.memory-panel {
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+}
+
+.memory-select {
+  font-size: 0.95rem;
+}
+
+.memory-buttons .btn {
+  min-width: 90px;
+}
+
+.memory-stats {
+  margin-top: 1.5rem;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.memory-stats h4 {
+  font-size: 1rem;
+  margin-bottom: 0.75rem;
+}
+
+.memory-stat-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.9rem;
+  margin-bottom: 0.25rem;
+}
+
+.memory-message {
+  margin-top: 1rem;
+  font-size: 0.9rem;
+  padding: 0.75rem 0.9rem;
+  border-radius: 8px;
+  background-color: #f8f9fa;
+  border-left: 3px solid #0d6efd;
+}
+
+/* Board layout */
+
+.memory-board-wrapper {
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 1.5rem;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
+}
+
+.memory-board {
+  display: grid;
+  grid-template-columns: repeat(var(--memory-cols, 4), minmax(60px, 1fr));
+  gap: 0.75rem;
+  justify-items: center;
+}
+
+/* Cards */
+
+.memory-card {
+  position: relative;
+  width: 100%;
+  padding-top: 100%; /* kare kart */
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  perspective: 900px;
+}
+
+.memory-card-inner {
+  position: absolute;
+  inset: 0;
+  border-radius: 12px;
+  transform-style: preserve-3d;
+  transition: transform 0.4s ease;
+}
+
+.memory-card-face {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12px;
+  backface-visibility: hidden;
+}
+
+/* Ön yüz (kapalı kart) */
+.memory-card-front {
+  background: linear-gradient(145deg, #0d6efd, #6610f2);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.memory-card-front::before {
+  content: "?";
+  color: #ffffff;
+  font-size: 1.9rem;
+  font-weight: 700;
+}
+
+/* Arka yüz (ikon) */
+.memory-card-back {
+  background: #ffffff;
+  border: 2px solid #0d6efd;
+  font-size: 2rem;
+}
+
+/* Flip state */
+.memory-card.is-flipped .memory-card-inner,
+.memory-card.is-matched .memory-card-inner {
+  transform: rotateY(180deg);
+}
+
+.memory-card-back {
+  transform: rotateY(180deg);
+}
+
+/* Eşleşmiş kartlar için hafif stil farkı */
+.memory-card.is-matched .memory-card-back {
+  background: #e7f5ff;
+  border-color: #198754;
+}
+
+/* Hover (masaüstü) */
+@media (hover: hover) {
+  .memory-card:not(.is-matched):hover .memory-card-front {
+    filter: brightness(1.08);
+  }
+}
+
+/* Responsive ayarlar */
+@media (max-width: 991.98px) {
+  .memory-board-wrapper {
+    margin-top: 1rem;
+  }
+}
+
+@media (max-width: 575.98px) {
+  .memory-board {
+    gap: 0.5rem;
+  }
+
+  .memory-card-front::before {
+    font-size: 1.5rem;
+  }
+
+  .memory-card-back {
+    font-size: 1.6rem;
+  }
+}
+
